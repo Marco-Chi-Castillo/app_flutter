@@ -60,8 +60,7 @@ class HomePage extends StatelessWidget {
           Image(
             height: 100,
             width: 100,
-            image: NetworkImage(
-                'https://lh3.googleusercontent.com/proxy/RGg8yK_eK1gVW9EGbmw7jeIZMMR9cwT2QZdP6aJzkXg2o0CxsqSeUvTHT9ROG0he0svoMqLiIiqEtYbseAiET4fV-s2MO_d_t4XcId_SCI1Pnd3a3WnT_UDEIJ6lIoFa-w'),
+            image: AssetImage('assets/images/logo_itsva.png'),
           ),
           Container(
             margin: EdgeInsets.only(top: 10.0),
