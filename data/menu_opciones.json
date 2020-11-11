@@ -1,0 +1,25 @@
+{
+  "nombreApp" : "reservaciones_app",
+  "rutas" : [
+   {
+       "ruta" : "/",
+       "icon" : "home",
+       "texto": "Inicio"
+    },
+    {
+       "ruta" : "reservaciones",
+       "icon" : "today",
+       "texto": "Reservaciones"
+    },
+    {
+       "ruta" : "docentes",
+       "icon" : "people",
+       "texto": "Docentes"
+    },
+    {
+       "ruta" : "espacios",
+       "icon" : "home_work",
+       "texto": "Espacios"
+    }
+  ]
+}

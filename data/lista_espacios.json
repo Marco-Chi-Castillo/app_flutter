@@ -1,0 +1,40 @@
+{
+  "espacios" : [
+    {
+       "edificio": "Centro de computo 1",
+       "Descripcion" : "Area para utilizar equipos de computos."
+    },
+    {
+       "edificio": "Centro de computo 2",
+       "Descripcion" : "Area para utilizar equipos de computos."
+    },
+    {
+       "edificio": "Centro de computo 3",
+       "Descripcion" : "Area para utilizar equipos de computos."
+    },
+    {
+       "edificio": "Laboratorio de Idiomas",
+       "Descripcion" : "Area para las clases de idiomas o actividades"
+    },
+    {
+       "edificio": "Audiovisual 1",
+       "Descripcion" : "Area para actividades del itsva"
+    },
+    {
+       "edificio": "Audiovisual 2",
+       "Descripcion" : "Area para actividades del itsva"
+    },
+    {
+       "edificio": "Sala de juntas 1",
+       "Descripcion" : "Area para las juntas del itsva"
+    },
+    {
+       "edificio": "Sala de juntas 2",
+       "Descripcion" : "Area para las juntas del itsva"
+    },
+    {
+       "edificio": "Auditorio",
+       "Descripcion" : "Area para diversas actividades del itsva"
+    }
+  ]
+}
