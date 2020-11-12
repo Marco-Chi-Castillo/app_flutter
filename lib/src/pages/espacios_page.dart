@@ -48,7 +48,7 @@ class EspaciosPage extends StatelessWidget {
           title: Text(element['edificio']),
           subtitle: Text(element['Descripcion']),
           onTap: () {
-            Navigator.pushNamed(context, 'formEspacio');
+            Navigator.pushNamed(context, 'espacioDetalle', arguments: element);
           },
         ),
       );

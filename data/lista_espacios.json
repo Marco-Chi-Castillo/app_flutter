@@ -2,39 +2,48 @@
   "espacios" : [
     {
        "edificio": "Centro de computo 1",
-       "Descripcion" : "Area para utilizar equipos de computos."
+       "Descripcion" : "Area para utilizar equipos de computos.",
+       "fecha" : "11/11/2020"
     },
     {
        "edificio": "Centro de computo 2",
-       "Descripcion" : "Area para utilizar equipos de computos."
+       "Descripcion" : "Area para utilizar equipos de computos.",
+       "fecha" : "11/11/2020"
     },
     {
        "edificio": "Centro de computo 3",
-       "Descripcion" : "Area para utilizar equipos de computos."
+       "Descripcion" : "Area para utilizar equipos de computos.",
+       "fecha" : "11/11/2020"
     },
     {
        "edificio": "Laboratorio de Idiomas",
-       "Descripcion" : "Area para las clases de idiomas o actividades"
+       "Descripcion" : "Area para las clases de idiomas o actividades",
+       "fecha" : "11/11/2020"
     },
     {
        "edificio": "Audiovisual 1",
-       "Descripcion" : "Area para actividades del itsva"
+       "Descripcion" : "Area para actividades del itsva",
+       "fecha" : "11/11/2020"
     },
     {
        "edificio": "Audiovisual 2",
-       "Descripcion" : "Area para actividades del itsva"
+       "Descripcion" : "Area para actividades del itsva",
+       "fecha" : "11/11/2020"
     },
     {
        "edificio": "Sala de juntas 1",
-       "Descripcion" : "Area para las juntas del itsva"
+       "Descripcion" : "Area para las juntas del itsva",
+       "fecha" : "11/11/2020"
     },
     {
        "edificio": "Sala de juntas 2",
-       "Descripcion" : "Area para las juntas del itsva"
+       "Descripcion" : "Area para las juntas del itsva",
+       "fecha" : "11/11/2020"
     },
     {
        "edificio": "Auditorio",
-       "Descripcion" : "Area para diversas actividades del itsva"
+       "Descripcion" : "Area para diversas actividades del itsva",
+       "fecha" : "11/11/2020"
     }
   ]
 }
