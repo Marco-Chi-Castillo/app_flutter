@@ -7,7 +7,7 @@ class ErrorPage extends StatelessWidget {
     return Container(
         child: Scaffold(
       appBar: AppBar(
-        title: Text('Error'),
+        title: Text('En desarollo'),
       ),
       drawer: Drawer(
         child: menuDrawer.menuDrawer(),

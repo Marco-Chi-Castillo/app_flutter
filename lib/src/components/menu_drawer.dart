@@ -41,7 +41,7 @@ class MenuDrawer {
   DrawerHeader _drawerHeader() {
     return DrawerHeader(
       decoration: BoxDecoration(
-        color: Thema.colorPrimary,
+        color: Style.colorPrimary,
       ),
       child: Column(
         children: <Widget>[

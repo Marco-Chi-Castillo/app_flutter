@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import 'package:reservaciones_app/src/pages/error_page.dart';
 import 'package:reservaciones_app/src/routes/routes.dart';
 import 'package:reservaciones_app/src/utils/paletaColor_util.dart';
+import 'package:reservaciones_app/src/pages/error_page.dart';
 
 void main() => runApp(MyApp());
 
@@ -12,7 +12,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Reservaciones_app',
       theme: ThemeData(
-        primaryColor: Thema.colorPrimary,
+        primaryColor: Style.colorPrimary,
         pageTransitionsTheme: PageTransitionsTheme(builders: {
           TargetPlatform.android: CupertinoPageTransitionsBuilder(),
         }),
