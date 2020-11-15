@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'package:reservaciones_app/src/components/menu_drawer.dart';
 import 'package:reservaciones_app/src/providers/espacios_provider.dart';
 import 'package:reservaciones_app/src/utils/paletaColor_util.dart';
@@ -20,7 +21,7 @@ class EspaciosPage extends StatelessWidget {
             Navigator.pushNamed(context, 'formEspacio');
           },
           child: Icon(Icons.add),
-          backgroundColor: Thema.colorPrimary,
+          backgroundColor: Style.colorPrimary,
         ),
       ),
     );
