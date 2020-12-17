@@ -52,6 +52,7 @@ class _FormEspacioPageState extends State<FormEspacioPage> {
                   _mostrarFoto(),
                   _inputNombre(),
                   _inputDescripcion(),
+                  _inputCapacidad(),
                   SizedBox(height: 30.0),
                   _radioButtons(),
                   _buttonGuardar(),
@@ -77,22 +78,10 @@ class _FormEspacioPageState extends State<FormEspacioPage> {
   }
 
   _seleccionarFoto() async {
-    /*foto = await ImagePicker.pickImage(source: ImageSource.gallery);
-    if (foto != null) {
-      //Limpieza
-    }
-
-    setState(() {});*/
     _procesarImagen(ImageSource.gallery);
   }
 
   _tomarFoto() async {
-    /*foto = await ImagePicker.pickImage(source: ImageSource.camera);
-    if (foto != null) {
-      //Limpieza
-    }
-
-    setState(() {});*/
     _procesarImagen(ImageSource.camera);
   }
 
@@ -119,6 +108,15 @@ class _FormEspacioPageState extends State<FormEspacioPage> {
       textCapitalization: TextCapitalization.sentences,
       decoration: InputDecoration(
         labelText: 'Descripción',
+      ),
+    );
+  }
+
+  Widget _inputCapacidad() {
+    return TextFormField(
+      textCapitalization: TextCapitalization.sentences,
+      decoration: InputDecoration(
+        labelText: 'Capacidad',
       ),
     );
   }

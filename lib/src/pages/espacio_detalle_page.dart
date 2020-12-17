@@ -67,6 +67,12 @@ class EspacioDetalle extends StatelessWidget {
       ),
       Divider(),
       ListTile(
+        leading: Icon(Icons.account_box),
+        title: Text(espacio['capacidad']),
+        subtitle: Text('Capacidad de personas'),
+      ),
+      Divider(),
+      ListTile(
         leading: Icon(Icons.radio_button_checked),
         title: Text(espacio['estado']),
         subtitle: Text('Estado del edifcio'),
@@ -75,17 +81,6 @@ class EspacioDetalle extends StatelessWidget {
 
     return items;
   }
-
-  /*Widget _mostrarFotod() {
-    if (fotoUrl != null) {
-      return Container();
-    } else {
-      if (foto != null) {
-        return Image.file(foto, height: 300.0, fit: BoxFit.cover);
-      }
-      return Image.asset('assets/im2.jpg', height: 300.0, fit: BoxFit.cover);
-    }
-  }*/
 
   void _alertDelete(BuildContext context) {
     showDialog(
