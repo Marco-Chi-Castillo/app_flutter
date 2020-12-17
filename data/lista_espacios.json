@@ -4,55 +4,64 @@
        "edificio": "Centro de computo 1",
        "Descripcion" : "Area para utilizar equipos de computos.",
        "fecha" : "11/11/2020",
-       "estado" : "Disponible"
+       "estado" : "Disponible",
+       "fotoUrl": "assets/im.jpg"
     },
     {
        "edificio": "Centro de computo 2",
        "Descripcion" : "Area para utilizar equipos de computos.",
        "fecha" : "11/11/2020",
-       "estado" : "Disponible"
+       "estado" : "Disponible",
+       "fotoUrl": "assets/im2.jpg"
     },
     {
        "edificio": "Centro de computo 3",
        "Descripcion" : "Area para utilizar equipos de computos.",
        "fecha" : "11/11/2020",
-       "estado" : "Disponible"
+       "estado" : "Disponible",
+       "fotoUrl": "assets/im3.jpg"
     },
     {
        "edificio": "Laboratorio de Idiomas",
        "Descripcion" : "Area para las clases de idiomas o actividades",
        "fecha" : "11/11/2020",
-       "estado" : "Disponible"
+       "estado" : "Disponible",
+       "fotoUrl": "assets/im4.jpg"
     },
     {
        "edificio": "Audiovisual 1",
        "Descripcion" : "Area para actividades del itsva",
        "fecha" : "11/11/2020",
-       "estado" : "Disponible"
+       "estado" : "Disponible",
+       "fotoUrl": "assets/im5.jpg"
     },
     {
        "edificio": "Audiovisual 2",
        "Descripcion" : "Area para actividades del itsva",
        "fecha" : "11/11/2020",
-       "estado" : "Disponible"
+       "estado" : "Disponible",
+       "fotoUrl": "assets/im6.jpg"
     },
     {
        "edificio": "Sala de juntas 1",
        "Descripcion" : "Area para las juntas del itsva",
        "fecha" : "11/11/2020",
-       "estado" : "Disponible"
+       "estado" : "Disponible",
+       "fotoUrl": "assets/im7.jpg"
     },
     {
        "edificio": "Sala de juntas 2",
        "Descripcion" : "Area para las juntas del itsva",
        "fecha" : "11/11/2020",
-       "estado" : "Disponible"
+       "estado" : "Disponible",
+       "fotoUrl": "assets/im8.jpg"
     },
     {
        "edificio": "Auditorio",
        "Descripcion" : "Area para diversas actividades del itsva",
        "fecha" : "11/11/2020",
-       "estado" : "Disponible"
+       "estado" : "Disponible",
+       "fotoUrl": "assets/im0.jpg"
     }
   ]
 }

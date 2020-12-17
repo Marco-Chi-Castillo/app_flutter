@@ -1,6 +1,10 @@
+//import 'dart:io';
+
 import 'package:flutter/material.dart';
 
 class EspacioDetalle extends StatelessWidget {
+  /*File foto = new File('assets/im.jpg');
+  String fotoUrl;*/
   @override
   Widget build(BuildContext context) {
     final dynamic espacio = ModalRoute.of(context).settings.arguments;
@@ -20,8 +24,10 @@ class EspacioDetalle extends StatelessWidget {
                 onPressed: () => _alertDelete(context))
           ],
         ),
-        body: Column(
-          children: _detallesEspacio(espacio),
+        body: SingleChildScrollView(
+          child: Column(
+            children: _detallesEspacio(espacio),
+          ),
         ),
       ),
     );
@@ -29,6 +35,16 @@ class EspacioDetalle extends StatelessWidget {
 
   List<Widget> _detallesEspacio(dynamic espacio) {
     final List<Widget> items = [
+      Container(
+        child: Column(
+          children: <Widget>[
+            Image.asset(espacio['fotoUrl'], //'assets/im2.jpg',
+                height: 300.0,
+                fit: BoxFit.cover), //_mostrarFotod(),
+          ],
+        ),
+      ),
+      //Image.asset('assets/im$url.jpg'),
       SizedBox(
         height: 30.0,
       ),
@@ -59,6 +75,17 @@ class EspacioDetalle extends StatelessWidget {
 
     return items;
   }
+
+  /*Widget _mostrarFotod() {
+    if (fotoUrl != null) {
+      return Container();
+    } else {
+      if (foto != null) {
+        return Image.file(foto, height: 300.0, fit: BoxFit.cover);
+      }
+      return Image.asset('assets/im2.jpg', height: 300.0, fit: BoxFit.cover);
+    }
+  }*/
 
   void _alertDelete(BuildContext context) {
     showDialog(

@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:reservaciones_app/src/utils/paletaColor_util.dart';
+import 'package:image_picker/image_picker.dart';
 
 class FormEspacioPage extends StatefulWidget {
   @override
@@ -7,6 +10,8 @@ class FormEspacioPage extends StatefulWidget {
 }
 
 class _FormEspacioPageState extends State<FormEspacioPage> {
+  File foto;
+  String fotoUrl;
   int selectedRadio;
 
   @override
@@ -23,15 +28,28 @@ class _FormEspacioPageState extends State<FormEspacioPage> {
 
   @override
   Widget build(BuildContext context) {
+    //final dynamic espacio = ModalRoute.of(context).settings.arguments;
     return Container(
       child: Scaffold(
-        appBar: AppBar(),
+        appBar: AppBar(
+          actions: <Widget>[
+            IconButton(
+              icon: Icon(Icons.photo_size_select_actual),
+              onPressed: _seleccionarFoto,
+            ),
+            IconButton(
+              icon: Icon(Icons.camera_alt),
+              onPressed: _tomarFoto,
+            ),
+          ],
+        ),
         body: SingleChildScrollView(
           child: Container(
             padding: EdgeInsets.all(30.0),
             child: Form(
               child: Column(
                 children: <Widget>[
+                  _mostrarFoto(),
                   _inputNombre(),
                   _inputDescripcion(),
                   SizedBox(height: 30.0),
@@ -44,6 +62,47 @@ class _FormEspacioPageState extends State<FormEspacioPage> {
         ),
       ),
     );
+  }
+
+  //Donde se almacena la foto
+  Widget _mostrarFoto() {
+    if (fotoUrl != null) {
+      return Container();
+    } else {
+      if (foto != null) {
+        return Image.file(foto, height: 300.0, fit: BoxFit.cover);
+      }
+      return Image.asset('assets/images/no-image.png');
+    }
+  }
+
+  _seleccionarFoto() async {
+    /*foto = await ImagePicker.pickImage(source: ImageSource.gallery);
+    if (foto != null) {
+      //Limpieza
+    }
+
+    setState(() {});*/
+    _procesarImagen(ImageSource.gallery);
+  }
+
+  _tomarFoto() async {
+    /*foto = await ImagePicker.pickImage(source: ImageSource.camera);
+    if (foto != null) {
+      //Limpieza
+    }
+
+    setState(() {});*/
+    _procesarImagen(ImageSource.camera);
+  }
+
+  _procesarImagen(ImageSource origen) async {
+    foto = await ImagePicker.pickImage(source: origen);
+
+    if (foto != null) {
+      //Limpieza
+    }
+    setState(() {});
   }
 
   Widget _inputNombre() {
