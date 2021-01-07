@@ -8,11 +8,11 @@ String espaciosModelToJson(EspaciosModel data) => json.encode(data.toJson());
 class EspaciosModel {
   EspaciosModel({
     this.id,
-    this.nombre,
-    this.descripcion,
-    this.capacidad,
-    this.estatus,
-    this.imagen,
+    this.nombre = '',
+    this.descripcion = '',
+    this.capacidad = 0,
+    this.estatus = 1,
+    this.imagen = '',
     this.idEdificio,
   });
 

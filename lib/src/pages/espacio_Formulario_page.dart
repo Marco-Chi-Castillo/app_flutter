@@ -1,6 +1,9 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:reservaciones_app/src/models/espacios_model.dart';
+import 'package:reservaciones_app/src/providers/espacio_list_provider.dart';
 import 'package:reservaciones_app/src/utils/paletaColor_util.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -12,25 +15,27 @@ class FormEspacioPage extends StatefulWidget {
 class _FormEspacioPageState extends State<FormEspacioPage> {
   File foto;
   String fotoUrl;
-  int selectedRadio;
+  bool _guardando = false;
+
+  final formKey = GlobalKey<FormState>();
+  final scaffolKey = GlobalKey<ScaffoldState>();
+  EspaciosModel espacio = new EspaciosModel();
 
   @override
   void initState() {
     super.initState();
-    selectedRadio = 0;
-  }
-
-  setSelectedRadio(int val) {
-    setState(() {
-      selectedRadio = val;
-    });
   }
 
   @override
   Widget build(BuildContext context) {
+    final EspaciosModel espacioData = ModalRoute.of(context).settings.arguments;
+    if (espacioData != null) {
+      espacio = espacioData;
+    }
     //final dynamic espacio = ModalRoute.of(context).settings.arguments;
     return Container(
       child: Scaffold(
+        key: scaffolKey,
         appBar: AppBar(
           actions: <Widget>[
             IconButton(
@@ -47,6 +52,7 @@ class _FormEspacioPageState extends State<FormEspacioPage> {
           child: Container(
             padding: EdgeInsets.all(30.0),
             child: Form(
+              key: formKey,
               child: Column(
                 children: <Widget>[
                   _mostrarFoto(),
@@ -96,56 +102,52 @@ class _FormEspacioPageState extends State<FormEspacioPage> {
 
   Widget _inputNombre() {
     return TextFormField(
+      initialValue: espacio.nombre,
       textCapitalization: TextCapitalization.sentences,
       decoration: InputDecoration(
         labelText: 'Espacio',
       ),
+      onSaved: (value) => espacio.nombre = value,
+      validator: (value) {
+        if (value.length < 1) {
+          return 'Ingrese el nombre del espacio';
+        } else {
+          return null;
+        }
+      },
     );
   }
 
   Widget _inputDescripcion() {
     return TextFormField(
+      initialValue: espacio.descripcion,
       textCapitalization: TextCapitalization.sentences,
       decoration: InputDecoration(
         labelText: 'Descripción',
       ),
+      onSaved: (value) => espacio.descripcion = value,
     );
   }
 
   Widget _inputCapacidad() {
     return TextFormField(
+      initialValue: espacio.capacidad.toString(),
+      keyboardType: TextInputType.numberWithOptions(decimal: true),
       textCapitalization: TextCapitalization.sentences,
       decoration: InputDecoration(
         labelText: 'Capacidad',
       ),
+      onSaved: (value) => espacio.capacidad = int.parse(value),
     );
   }
 
   Widget _radioButtons() {
-    return Row(
-      children: [
-        ButtonBar(
-          children: [
-            Text('Disponible: '),
-            Radio(
-              value: 1,
-              groupValue: selectedRadio,
-              onChanged: (val) {
-                setSelectedRadio(val);
-              },
-            ),
-            Text('Si'),
-            Radio(
-              value: 2,
-              groupValue: selectedRadio,
-              onChanged: (val) {
-                setSelectedRadio(val);
-              },
-            ),
-            Text('No'),
-          ],
-        ),
-      ],
+    return SwitchListTile(
+      value: espacio.estatus == 1 ? true : false,
+      title: Text('Disponible'),
+      onChanged: (value) => setState(() {
+        espacio.estatus = value == true ? 1 : 0;
+      }),
     );
   }
 
@@ -156,7 +158,39 @@ class _FormEspacioPageState extends State<FormEspacioPage> {
       textColor: Colors.white,
       label: Text('Guardar'),
       icon: Icon(Icons.save),
-      onPressed: () {},
+      onPressed: (_guardando) ? null : _submit,
     );
+  }
+
+  void _submit() {
+    if (!formKey.currentState.validate()) return;
+    formKey.currentState.save();
+
+    setState(() {
+      _guardando = true;
+    });
+
+    final productoProvider =
+        Provider.of<EspacioListProvider>(context, listen: false);
+
+    espacio.imagen = 'assets/im7.jpg';
+
+    if (espacio.id == null) {
+      productoProvider.insertEspacio(espacio);
+    } else {
+      productoProvider.updateEspacio(espacio);
+    }
+    mostrarSnackbar('Espacio Guardado');
+    Navigator.pushNamed(context, 'espacios');
+  }
+
+  void mostrarSnackbar(String mensaje) {
+    final snackbar = SnackBar(
+        content: Text(mensaje),
+        duration: Duration(
+          milliseconds: 2000,
+        ));
+
+    scaffolKey.currentState.showSnackBar(snackbar);
   }
 }

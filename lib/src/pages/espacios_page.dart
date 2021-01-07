@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'package:reservaciones_app/src/components/menu_drawer.dart';
-import 'package:reservaciones_app/src/providers/espacios_provider.dart';
+import 'package:reservaciones_app/src/providers/espacio_list_provider.dart';
 import 'package:reservaciones_app/src/utils/paletaColor_util.dart';
 
 class EspaciosPage extends StatelessWidget {
@@ -24,7 +25,7 @@ class EspaciosPage extends StatelessWidget {
         drawer: Drawer(
           child: menuDrawer.menuDrawer(),
         ),
-        body: _listaEspacios(),
+        body: _listaEspacios(context),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
             Navigator.pushNamed(context, 'formEspacio');
@@ -36,37 +37,25 @@ class EspaciosPage extends StatelessWidget {
     );
   }
 
-  Widget _listaEspacios() {
-    return FutureBuilder(
-      future: espaciosProvider.cargarDatos(),
-      initialData: [],
-      builder: (context, AsyncSnapshot<List<dynamic>> snapshot) {
-        return ListView(
-          children: _itemsEspacios(snapshot.data, context),
-        );
-      },
+  Widget _listaEspacios(BuildContext context) {
+    final espaciosListProvider = Provider.of<EspacioListProvider>(context);
+    espaciosListProvider.getAllEspacios();
+
+    final espacios = espaciosListProvider.espacios;
+
+    return ListView.builder(
+      itemCount: espacios.length,
+      itemBuilder: (_, i) => ListTile(
+        leading: Icon(Icons.apartment),
+        trailing: Icon(Icons.keyboard_arrow_right),
+        title: Text(espacios[i].nombre),
+        subtitle: Text(espacios[i].descripcion),
+        onTap: () {
+          Navigator.pushNamed(context, 'espacioDetalle',
+              arguments: espacios[i]);
+        },
+      ),
     );
-  }
-
-  List<Widget> _itemsEspacios(List<dynamic> data, BuildContext context) {
-    final List<Widget> items = [];
-    data.forEach((element) {
-      final widgetTemp = Card(
-        child: ListTile(
-          leading: Icon(Icons.apartment),
-          trailing: Icon(Icons.keyboard_arrow_right),
-          title: Text(element['edificio']),
-          subtitle: Text(element['Descripcion']),
-          onTap: () {
-            Navigator.pushNamed(context, 'espacioDetalle', arguments: element);
-          },
-        ),
-      );
-
-      items.add(widgetTemp);
-    });
-
-    return items;
   }
 }
 
