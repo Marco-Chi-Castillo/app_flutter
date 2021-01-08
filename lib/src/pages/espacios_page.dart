@@ -8,6 +8,7 @@ import 'package:reservaciones_app/src/utils/paletaColor_util.dart';
 class EspaciosPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final espaciosListProvider = Provider.of<EspacioListProvider>(context);
     return Container(
       child: Scaffold(
         appBar: AppBar(
@@ -25,7 +26,7 @@ class EspaciosPage extends StatelessWidget {
         drawer: Drawer(
           child: menuDrawer.menuDrawer(),
         ),
-        body: _listaEspacios(context),
+        body: _listaEspacios(context, espaciosListProvider),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
             Navigator.pushNamed(context, 'formEspacio');
@@ -37,8 +38,8 @@ class EspaciosPage extends StatelessWidget {
     );
   }
 
-  Widget _listaEspacios(BuildContext context) {
-    final espaciosListProvider = Provider.of<EspacioListProvider>(context);
+  Widget _listaEspacios(
+      BuildContext context, EspacioListProvider espaciosListProvider) {
     espaciosListProvider.getAllEspacios();
 
     final espacios = espaciosListProvider.espacios;

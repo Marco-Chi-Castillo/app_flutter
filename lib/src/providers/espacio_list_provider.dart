@@ -1,40 +1,41 @@
 import 'package:flutter/material.dart';
 import 'package:reservaciones_app/src/providers/db_provider.dart';
+import 'package:reservaciones_app/src/providers/espacios_provider.dart';
 
 class EspacioListProvider extends ChangeNotifier {
   List<EspaciosModel> espacios = [];
 
   insertEspacio(EspaciosModel espacio) async {
-    final id = await DBProvider.db.insertEspacio(espacio);
+    final id = await EspacioProvider.pro.insertEspacio(espacio);
     espacio.id = id;
     this.espacios.add(espacio);
     notifyListeners();
   }
 
   getEspacioById(int id) async {
-    final espacio = await DBProvider.db.getEspacioById(id);
+    final espacio = await EspacioProvider.pro.getEspacioById(id);
     this.espacios.add(espacio);
     notifyListeners();
   }
 
   getAllEspacios() async {
-    final espacios = await DBProvider.db.getAllEspacios();
+    final espacios = await EspacioProvider.pro.getAllEspacios();
     this.espacios = [...espacios];
     notifyListeners();
   }
 
   updateEspacio(EspaciosModel espacio) async {
-    await DBProvider.db.updateEspacio(espacio);
+    await EspacioProvider.pro.updateEspacio(espacio);
     this.getAllEspacios();
   }
 
   deleteEspacioById(int id) async {
-    await DBProvider.db.deleteEspacioById(id);
+    await EspacioProvider.pro.deleteEspacioById(id);
     this.getAllEspacios();
   }
 
   deleteEspacios() async {
-    await DBProvider.db.deleteAllEspacios();
+    await EspacioProvider.pro.deleteAllEspacios();
     this.getAllEspacios();
   }
 }

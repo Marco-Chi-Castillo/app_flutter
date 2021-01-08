@@ -173,6 +173,7 @@ class _FormEspacioPageState extends State<FormEspacioPage> {
     final productoProvider =
         Provider.of<EspacioListProvider>(context, listen: false);
 
+    espacio.idEdificio = 1;
     espacio.imagen = 'assets/im7.jpg';
 
     if (espacio.id == null) {
