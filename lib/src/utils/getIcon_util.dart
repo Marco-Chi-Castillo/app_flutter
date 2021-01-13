@@ -5,6 +5,7 @@ final _icons = <String, IconData>{
   'today': Icons.today,
   'people': Icons.people,
   'home_work': Icons.home_work,
+  'home_filled': Icons.home_filled,
 };
 
 Icon getIcon(String nombreIcon) {

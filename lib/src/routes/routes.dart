@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:reservaciones_app/src/pages/edificio_Formulario_page.dart';
+import 'package:reservaciones_app/src/pages/edificio_detalle_page.dart';
+import 'package:reservaciones_app/src/pages/edificios_page.dart';
 import 'package:reservaciones_app/src/pages/espacio_detalle_page.dart';
 import 'package:reservaciones_app/src/pages/espacio_Formulario_page.dart';
 
@@ -15,5 +18,8 @@ Map<String, WidgetBuilder> getPages() {
     'espacios': (BuildContext context) => EspaciosPage(),
     'formEspacio': (BuildContext context) => FormEspacioPage(),
     'espacioDetalle': (BuildContext context) => EspacioDetalle(),
+    'edificios': (BuildContext context) => EdificiosPage(),
+    'formEdificio': (BuildContext context) => FormEdificioPage(),
+    'edificioDetalle': (BuildContext context) => EdificioDetalle(),
   };
 }

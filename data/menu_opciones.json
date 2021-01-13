@@ -20,6 +20,11 @@
        "ruta" : "espacios",
        "icon" : "home_work",
        "texto": "Espacios"
-    }
+    },
+    {
+      "ruta" : "edificios",
+      "icon" : "home_filled",
+      "texto": "Edificios"
+   }
   ]
 }
