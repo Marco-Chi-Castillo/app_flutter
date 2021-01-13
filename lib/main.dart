@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:reservaciones_app/src/pages/login_page.dart';
+import 'package:reservaciones_app/src/pages/error_page.dart';
 import 'package:reservaciones_app/src/providers/edificio_list_provider.dart';
 import 'package:reservaciones_app/src/providers/espacio_list_provider.dart';
 
@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
         routes: getPages(),
         onGenerateRoute: (RouteSettings settings) {
           return MaterialPageRoute(
-              builder: (BuildContext context) => LoginPage());
+              builder: (BuildContext context) => ErrorPage());
         },
       ),
     );
