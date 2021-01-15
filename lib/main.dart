@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:reservaciones_app/src/pages/error_page.dart';
 import 'package:reservaciones_app/src/providers/edificio_list_provider.dart';
 import 'package:reservaciones_app/src/providers/espacio_list_provider.dart';
+import 'package:reservaciones_app/src/providers/registro_list_provider.dart';
 
 import 'package:reservaciones_app/src/routes/routes.dart';
 import 'package:reservaciones_app/src/utils/paletaColor_util.dart';
@@ -17,6 +18,7 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (_) => new EspacioListProvider()),
         ChangeNotifierProvider(create: (_) => new EdificioListProvider()),
+        ChangeNotifierProvider(create: (_) => new RegistroListProvider()),
       ],
       child: MaterialApp(
         title: 'Reservaciones_app',

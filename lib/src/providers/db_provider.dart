@@ -19,6 +19,7 @@ class DBProvider {
         PRIMARY KEY(id)
       );
   ''';
+
   static const tablaUsuarios = '''
       CREATE TABLE Usuarios(
         id	INTEGER NOT NULL,
@@ -34,14 +35,14 @@ class DBProvider {
       );
   ''';
 
-  static const tablaEdificios ='''
+  static const tablaEdificios = '''
       CREATE TABLE Edificios (
       	id	INTEGER PRIMARY KEY,
 	      nombre	TEXT NOT NULL
       );
   ''';
 
-  static const tablaEspacios='''
+  static const tablaEspacios = '''
       CREATE TABLE Espacios(
         id INTEGER PRIMARY KEY,
         nombre TEXT NOT NULL,
@@ -56,7 +57,7 @@ class DBProvider {
       );
   ''';
 
-  static const tablaReservas='''
+  static const tablaReservas = '''
       CREATE TABLE Reservas(
         id INTEGER PRIMARY KEY,
         fechaReservacion DATE NOT NULL,
@@ -76,7 +77,7 @@ class DBProvider {
       );
   ''';
 
-  static const triggerBeforeInsertReservas='''
+  static const triggerBeforeInsertReservas = '''
       CREATE TRIGGER before_reservas_insert BEFORE INSERT ON Reservas
       FOR EACH ROW
       BEGIN
@@ -90,7 +91,6 @@ class DBProvider {
           (NEW.horaInicio <= Reservas.horaInicio AND NEW.horaFinal >= Reservas.horaFinal)));
       END;
   ''';
-
 
   Future<Database> get database async {
     if (_database != null) return _database;
@@ -109,12 +109,12 @@ class DBProvider {
     //Creacion de la base de datos
     return await openDatabase(path, version: 3,
         onCreate: (Database db, int version) async {
-          await db.execute(tablaRoles);
-          await db.execute(tablaUsuarios);
-          await db.execute(tablaEdificios);
-          await db.execute(tablaEspacios);
-          await db.execute(tablaReservas);
-          await db.execute(triggerBeforeInsertReservas);
+      await db.execute(tablaRoles);
+      await db.execute(tablaUsuarios);
+      await db.execute(tablaEdificios);
+      await db.execute(tablaEspacios);
+      await db.execute(tablaReservas);
+      await db.execute(triggerBeforeInsertReservas);
     });
   }
 }

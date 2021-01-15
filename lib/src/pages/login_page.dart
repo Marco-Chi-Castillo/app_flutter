@@ -35,7 +35,7 @@ Widget _loginForm(BuildContext context) {
           ]),
       child: Column(
         children: <Widget>[
-          Text("BIENVENIDO", style: TextStyle(fontSize: 20.0)),
+          Text("INGRESAR", style: TextStyle(fontSize: 20.0)),
           SizedBox(height: 60.0),
           _crearEmail(),
           SizedBox(height: 30.0),
