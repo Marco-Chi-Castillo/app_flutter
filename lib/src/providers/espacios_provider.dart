@@ -10,6 +10,7 @@ class EspacioProvider {
     final db = await DBProvider.db.database;
     final res = await db.insert('Espacios', nuevoEspacio.toJson());
     print(res);
+
     return res;
   }
 
@@ -49,5 +50,10 @@ class EspacioProvider {
     final res = await db.delete('Espacios');
 
     return res;
+  }
+
+  Future close() async {
+    final db = await DBProvider.db.database;
+    db.close();
   }
 }

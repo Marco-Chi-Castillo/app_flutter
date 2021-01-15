@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:reservaciones_app/src/models/espacios_model.dart';
+import 'package:reservaciones_app/src/providers/edificio_list_provider.dart';
 import 'package:reservaciones_app/src/providers/espacio_list_provider.dart';
 import 'package:reservaciones_app/src/utils/paletaColor_util.dart';
 import 'package:image_picker/image_picker.dart';
@@ -28,6 +29,9 @@ class _FormEspacioPageState extends State<FormEspacioPage> {
 
   @override
   Widget build(BuildContext context) {
+    final edificiosListProvider = Provider.of<EdificioListProvider>(context);
+    edificiosListProvider.getAllEdificios();
+
     final EspaciosModel espacioData = ModalRoute.of(context).settings.arguments;
     if (espacioData != null) {
       espacio = espacioData;
@@ -59,6 +63,8 @@ class _FormEspacioPageState extends State<FormEspacioPage> {
                   _inputNombre(),
                   _inputDescripcion(),
                   _inputCapacidad(),
+                  SizedBox(height: 30.0),
+                  _dropDown(edificiosListProvider),
                   SizedBox(height: 30.0),
                   _radioButtons(),
                   _buttonGuardar(),
@@ -151,6 +157,33 @@ class _FormEspacioPageState extends State<FormEspacioPage> {
     );
   }
 
+  Widget _dropDown(EdificioListProvider edificiosListProvider) {
+    final _edificiosList = edificiosListProvider.edificio;
+
+    return DropdownButtonFormField(
+      value: espacio.idEdificio,
+      items: _edificiosList
+          .map((edi) => DropdownMenuItem(
+                child: Text(edi.nombre),
+                value: edi.id,
+              ))
+          .toList(),
+      onChanged: (value) {
+        setState(() {
+          espacio.idEdificio = value;
+        });
+      },
+      hint: Text('Selecione Edificio'),
+      validator: (value) {
+        if (value == null) {
+          return 'Ingrese un Edificio';
+        } else {
+          return null;
+        }
+      },
+    );
+  }
+
   Widget _buttonGuardar() {
     return RaisedButton.icon(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
@@ -170,16 +203,15 @@ class _FormEspacioPageState extends State<FormEspacioPage> {
       _guardando = true;
     });
 
-    final productoProvider =
+    final espacioProvider =
         Provider.of<EspacioListProvider>(context, listen: false);
 
-    espacio.idEdificio = 1;
     espacio.imagen = 'assets/im7.jpg';
 
     if (espacio.id == null) {
-      productoProvider.insertEspacio(espacio);
+      espacioProvider.insertEspacio(espacio);
     } else {
-      productoProvider.updateEspacio(espacio);
+      espacioProvider.updateEspacio(espacio);
     }
     mostrarSnackbar('Espacio Guardado');
     Navigator.pushNamed(context, 'espacios');
