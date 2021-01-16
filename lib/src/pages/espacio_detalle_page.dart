@@ -41,9 +41,18 @@ class EspacioDetalle extends StatelessWidget {
       Container(
         child: Column(
           children: <Widget>[
-            Image.asset(espacio.imagen, //'assets/im2.jpg',
+            /*Image.asset(espacio.imagen, //'assets/im2.jpg',
                 height: 300.0,
-                fit: BoxFit.cover), //_mostrarFotod(),
+                fit: BoxFit.cover),*/ //_mostrarFotod(),
+            (espacio.imagen == null)
+                ? Image(image: AssetImage('assets/images/no-image.png'))
+                : FadeInImage(
+                    image: NetworkImage(espacio.imagen),
+                    placeholder: AssetImage('assets/images/jar-loading.gif'),
+                    height: 300.0,
+                    width: double.infinity,
+                    fit: BoxFit.cover,
+                  ),
           ],
         ),
       ),

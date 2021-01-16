@@ -79,8 +79,13 @@ class _FormEspacioPageState extends State<FormEspacioPage> {
 
   //Donde se almacena la foto
   Widget _mostrarFoto() {
-    if (fotoUrl != null) {
-      return Container();
+    if (espacio.imagen != null) {
+      return FadeInImage(
+        image: NetworkImage(espacio.imagen),
+        placeholder: AssetImage('assets/images/jar-loading.gif'),
+        height: 300.0,
+        fit: BoxFit.contain,
+      );
     } else {
       if (foto != null) {
         return Image.file(foto, height: 300.0, fit: BoxFit.cover);
@@ -101,7 +106,7 @@ class _FormEspacioPageState extends State<FormEspacioPage> {
     foto = await ImagePicker.pickImage(source: origen);
 
     if (foto != null) {
-      //Limpieza
+      espacio.imagen = null;
     }
     setState(() {});
   }
@@ -195,7 +200,7 @@ class _FormEspacioPageState extends State<FormEspacioPage> {
     );
   }
 
-  void _submit() {
+  void _submit() async {
     if (!formKey.currentState.validate()) return;
     formKey.currentState.save();
 
@@ -206,8 +211,9 @@ class _FormEspacioPageState extends State<FormEspacioPage> {
     final espacioProvider =
         Provider.of<EspacioListProvider>(context, listen: false);
 
-    espacio.imagen = 'assets/im7.jpg';
-
+    if (foto != null) {
+      espacio.imagen = await espacioProvider.subirImagen(foto);
+    }
     if (espacio.id == null) {
       espacioProvider.insertEspacio(espacio);
     } else {
