@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+
 import 'package:reservaciones_app/src/models/registro_model.dart';
-import 'package:reservaciones_app/src/providers/registro_list_provider.dart';
+import 'package:reservaciones_app/src/providers/db_provider.dart';
 
 class RegistroPage extends StatefulWidget {
   @override
@@ -9,11 +9,10 @@ class RegistroPage extends StatefulWidget {
 }
 
 class _RegistroPageState extends State<RegistroPage> {
-  bool _guardando = false;
-
-  final formKey = GlobalKey<FormState>();
-  final scaffolKey = GlobalKey<ScaffoldState>();
-  RegistroModel usuario = new RegistroModel();
+  bool _isLoading = false;
+  final formKey = new GlobalKey<FormState>();
+  final scaffoldKey = new GlobalKey<ScaffoldState>();
+  String _nombre, _apellido, _email, _password;
 
   @override
   void initState() {
@@ -88,9 +87,9 @@ class _RegistroPageState extends State<RegistroPage> {
           icon: Icon(Icons.people_alt, color: Colors.deepPurple),
           labelText: "Nombre",
         ),
-        onSaved: (value) => usuario.nombre = value,
+        onSaved: (value) => _nombre = value,
         validator: (value) {
-          if (value.length < 1) {
+          if (value.length == 0) {
             return 'Ingrese el nombre ';
           } else {
             return null;
@@ -109,9 +108,9 @@ class _RegistroPageState extends State<RegistroPage> {
           icon: Icon(Icons.people_alt, color: Colors.deepPurple),
           labelText: "Apellidos",
         ),
-        onSaved: (value) => usuario.apellido = value,
+        onSaved: (value) => _apellido = value,
         validator: (value) {
-          if (value.length < 1) {
+          if (value.length == 0) {
             return 'Ingrese el apellido';
           } else {
             return null;
@@ -131,15 +130,17 @@ class _RegistroPageState extends State<RegistroPage> {
           hintText: "example.e@valladolid.tecnm.mx",
           labelText: "Correo electronico",
         ),
-        onSaved: (value) => usuario.email = value,
+        onSaved: (value) => _email = value,
         validator: (value) {
           Pattern pattern =
               r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
           RegExp regExp = new RegExp(pattern);
-          if (regExp.hasMatch(value)) {
-            return null;
+          if (value.length == 0) {
+            return "El correo es necesario";
+          } else if (!regExp.hasMatch(value)) {
+            return "Correo invalido";
           } else {
-            return "correo invalido";
+            return null;
           }
         },
       ),
@@ -155,7 +156,7 @@ class _RegistroPageState extends State<RegistroPage> {
           icon: Icon(Icons.lock_outline, color: Colors.deepPurple),
           labelText: "Contraseña",
         ),
-        onSaved: (value) => usuario.contrasenia = value,
+        onSaved: (value) => _password = value,
         validator: (value) {
           if (value.length <= 6) {
             return "La contraseña debe ser mayor a 6 caracteres";
@@ -180,25 +181,31 @@ class _RegistroPageState extends State<RegistroPage> {
       elevation: 0.0,
       color: Colors.deepPurple,
       textColor: Colors.white,
-      onPressed: (_guardando) ? null : _submit,
+      onPressed: _submit,
     );
   }
 
+  void _showSnackBar(String text) {
+    scaffoldKey.currentState.showSnackBar(new SnackBar(
+      content: new Text(text),
+    ));
+  }
+
   void _submit() {
-    if (!formKey.currentState.validate()) return;
-    formKey.currentState.save();
+    final form = formKey.currentState;
 
-    setState(() {
-      _guardando = true;
-    });
-
-    final usuarioProvider =
-        Provider.of<RegistroListProvider>(context, listen: false);
-
-    usuario.rolesId = 1;
-    usuarioProvider.insertUsuario(usuario);
-
-    Navigator.pushNamed(context, 'login');
+    if (form.validate()) {
+      setState(() {
+        _isLoading = true;
+        form.save();
+        var user =
+            new RegistroModel(_nombre, _apellido, _email, _password, null);
+        var db = new DBProvider();
+        db.saveUser(user);
+        _isLoading = false;
+        Navigator.of(context).pushNamed("login");
+      });
+    }
   }
 
   Widget _crearFondo(BuildContext context) {

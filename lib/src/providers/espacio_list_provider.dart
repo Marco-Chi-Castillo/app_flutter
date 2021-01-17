@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:reservaciones_app/src/providers/db_provider.dart';
+import 'package:reservaciones_app/src/models/espacios_model.dart';
 import 'package:reservaciones_app/src/providers/espacios_provider.dart';
 
 class EspacioListProvider extends ChangeNotifier {

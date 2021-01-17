@@ -1,15 +1,22 @@
 import 'dart:io';
 import 'package:path/path.dart';
+import 'dart:async';
 
 import 'package:path_provider/path_provider.dart';
+import 'package:reservaciones_app/src/models/registro_model.dart';
 import 'package:sqflite/sqflite.dart';
-export 'package:reservaciones_app/src/models/espacios_model.dart';
 
 class DBProvider {
   static Database _database;
+  static final DBProvider _instance = new DBProvider.internal();
+  factory DBProvider() => _instance;
   static final DBProvider db = DBProvider._();
-
   DBProvider._();
+
+  final String tableUsarios = "Usuario";
+  final String columnNombre = "nombre";
+  final String columnEmail = "email";
+  final String columnPassword = "password";
 
   /*Declaración de la estructura de cada tabla*/
   static const tablaRoles = '''
@@ -26,12 +33,9 @@ class DBProvider {
         nombre TEXT NOT NULL,
         apellido TEXT,
         email TEXT NOT NULL,
-        contrasenia TEXT NOT NULL,
-        roles_id	INTEGER NOT NULL,
+        password TEXT NOT NULL,
+        flaglogged TEXT,
         PRIMARY KEY(id)
-        FOREIGN KEY(roles_id) REFERENCES Roles(id)
-        ON DELETE RESTRICT
-        ON UPDATE CASCADE
       );
   ''';
 
@@ -100,6 +104,8 @@ class DBProvider {
     return _database;
   }
 
+  DBProvider.internal();
+
   Future<Database> initDatabase() async {
     //Path de la DB
     Directory documentsDirectory = await getApplicationDocumentsDirectory();
@@ -107,7 +113,7 @@ class DBProvider {
     print(path);
 
     //Creacion de la base de datos
-    return await openDatabase(path, version: 3,
+    return await openDatabase(path, version: 8,
         onCreate: (Database db, int version) async {
       await db.execute(tablaRoles);
       await db.execute(tablaUsuarios);
@@ -116,5 +122,33 @@ class DBProvider {
       await db.execute(tablaReservas);
       await db.execute(triggerBeforeInsertReservas);
     });
+  }
+
+  Future<int> saveUser(RegistroModel user) async {
+    var dbClient = await database;
+    //print(user.nombre);
+    int res = await dbClient.insert("Usuarios", user.toMap());
+    List<Map> list = await dbClient.rawQuery('SELECT * FROM Usuarios');
+    //print(list);
+    // print(res);
+    return res;
+  }
+
+  Future<RegistroModel> selectUser(RegistroModel user) async {
+    //("Select User");
+    //print(user.email);
+    //(user.password);
+    var dbClient = await database;
+    List<Map> maps = await dbClient.query("Usuarios",
+        columns: [columnEmail, columnPassword],
+        where: "$columnEmail = ? and $columnPassword = ?",
+        whereArgs: [user.email, user.password]);
+    //print(maps);
+    if (maps.length > 0) {
+      //print("User Exist !!!");
+      return user;
+    } else {
+      return null;
+    }
   }
 }
