@@ -134,7 +134,6 @@ class _LoginPageState extends State<LoginPage> implements LoginPageContract {
   }
 
   void _submit() {
-    showDialog(context: context);
     final form = formKey.currentState;
 
     if (form.validate()) {
@@ -176,6 +175,7 @@ class _LoginPageState extends State<LoginPage> implements LoginPageContract {
       // print("Logged");
       Navigator.of(context).pushNamed("home");
     } else {
+      return null;
       //print("Not Logged");
     }
   }
