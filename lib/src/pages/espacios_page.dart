@@ -80,6 +80,14 @@ class _EspaciosPageState extends State<EspaciosPage> {
             ? espacios.length
             : espaciosFilter.length,
         itemBuilder: (_, i) => ListTile(
+          /*leading: FadeInImage(
+            image: NetworkImage(espacios[i].imagen),
+            placeholder: AssetImage('assets/images/jar-loading.gif'),
+            height: 100.0,
+            width: double.infinity,
+            fit: BoxFit.cover,
+          )*/
+
           leading: Icon(Icons.apartment),
           trailing: Icon(Icons.keyboard_arrow_right),
           title: Text(espaciosFilter.length == 0
@@ -97,5 +105,7 @@ class _EspaciosPageState extends State<EspaciosPage> {
         ),
       ),
     );
+    /*
+    */
   }
 }
