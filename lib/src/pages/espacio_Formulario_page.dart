@@ -87,10 +87,12 @@ class _FormEspacioPageState extends State<FormEspacioPage> {
         fit: BoxFit.contain,
       );
     } else {
-      if (foto != null) {
-        return Image.file(foto, height: 300.0, fit: BoxFit.cover);
-      }
-      return Image.asset('assets/images/no-image.png');
+      return Image(
+        image: AssetImage(foto?.path ?? 'assets/images/no-image.png'),
+        height: 300.0,
+        fit: BoxFit.cover,
+      );
+      // Image.asset('assets/images/no-image.png');
     }
   }
 
@@ -227,7 +229,7 @@ class _FormEspacioPageState extends State<FormEspacioPage> {
     final snackbar = SnackBar(
         content: Text(mensaje),
         duration: Duration(
-          milliseconds: 2000,
+          milliseconds: 3000,
         ));
 
     scaffolKey.currentState.showSnackBar(snackbar);

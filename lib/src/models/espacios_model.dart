@@ -12,7 +12,7 @@ class EspaciosModel {
     this.descripcion = '',
     this.capacidad = 0,
     this.estatus = 1,
-    this.imagen = '',
+    this.imagen,
     this.idEdificio,
   });
 
