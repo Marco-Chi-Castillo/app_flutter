@@ -185,21 +185,14 @@ class _RegistroPageState extends State<RegistroPage> {
     );
   }
 
-  void _showSnackBar(String text) {
-    scaffoldKey.currentState.showSnackBar(new SnackBar(
-      content: new Text(text),
-    ));
-  }
-
   void _submit() {
     final form = formKey.currentState;
-
     if (form.validate()) {
       setState(() {
         _isLoading = true;
         form.save();
         var user =
-            new RegistroModel(_nombre, _apellido, _email, _password, null);
+            new RegistroModel(null, _nombre, _apellido, _email, _password);
         var db = new DBProvider();
         db.saveUser(user);
         _isLoading = false;

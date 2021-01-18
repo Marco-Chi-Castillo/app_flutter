@@ -8,18 +8,12 @@ import 'package:reservaciones_app/src/providers/reservas_provider.dart';
 import 'package:sqflite/sqflite.dart';
 
 class DBProvider {
-
   int _idUsuarioLogueado;
   static Database _database;
   static final DBProvider _instance = new DBProvider.internal();
   factory DBProvider() => _instance;
   static final DBProvider db = DBProvider._();
   DBProvider._();
-
-  final String tableUsarios = "Usuario";
-  final String columnNombre = "nombre";
-  final String columnEmail = "email";
-  final String columnPassword = "password";
 
   /*Declaración de la estructura de cada tabla*/
   static const tablaRoles = '''
@@ -34,10 +28,9 @@ class DBProvider {
       CREATE TABLE Usuarios(
         id	INTEGER NOT NULL,
         nombre TEXT NOT NULL,
-        apellido TEXT,
+        apellido TEXT NOT NULL,
         email TEXT NOT NULL,
         password TEXT NOT NULL,
-        flaglogged TEXT,
         PRIMARY KEY(id)
       );
   ''';
@@ -116,7 +109,7 @@ class DBProvider {
     print(path);
 
     //Creacion de la base de datos
-    return await openDatabase(path, version: 8,
+    return await openDatabase(path, version: 11,
         onCreate: (Database db, int version) async {
       await db.execute(tablaRoles);
       await db.execute(tablaUsuarios);
@@ -129,39 +122,48 @@ class DBProvider {
 
   Future<int> saveUser(RegistroModel user) async {
     var dbClient = await database;
-    //print(user.nombre);
-    int res = await dbClient.insert("Usuarios", user.toMap());
-    List<Map> list = await dbClient.rawQuery('SELECT * FROM Usuarios');
-    //print(list);
-    print(res);
+    String e = user.email;
+    int res;
+    List<Map> l = await dbClient
+        .rawQuery('SELECT email FROM Usuarios where email = "$e"');
+    if (l.isEmpty) {
+      res = await dbClient.insert("Usuarios", user.toMap());
+      List<Map> list = await dbClient.rawQuery('SELECT * FROM Usuarios');
+      print(list);
+      //print(res);
+    } else {
+      print("YA EXISTE UN CORREO CON ESTE EMAIL, UTILICE OTRO");
+    }
     return res;
   }
 
-  Future<RegistroModel> selectUser(RegistroModel user) async {
-    //("Select User");
-    //print(user.email);
-    //(user.password);
+  Future<List<RegistroModel>> getUser(RegistroModel user) async {
     var dbClient = await database;
-    List<Map> maps = await dbClient.query("Usuarios ",
-        columns: [columnEmail, columnPassword],
-        where: "$columnEmail = ? and $columnPassword = ?",
-        whereArgs: [ user.email, user.password]);
-     //print(maps);   
-    String email2 =user.email.toString();
-    String pass = user.password;   
-    List<Map> list = await dbClient.rawQuery('SELECT id FROM Usuarios WHERE email = "$email2" AND password = $pass');
-    
-    Map id = list[0];
-    _idUsuarioLogueado = int.parse(id["id"].toString());
-    ReservasProvider.rpro.setUsuarioId(_idUsuarioLogueado);
-     
-  
-    if (maps.length > 0) {
-      //print("User Exist !!!");
-      return user;
+    String email2 = user.email;
+    String pass = user.password;
+    List<RegistroModel> usersList = List();
+    List<Map> queryList = await dbClient.rawQuery(
+      'SELECT id  FROM Usuarios WHERE email= "$email2" AND password= "$pass"',
+    );
+    //  print('[DBProvide] getUser: ${queryList.length} usuarios');
+    if (queryList != null && queryList.length > 0) {
+      Map id = queryList[0];
+      _idUsuarioLogueado = int.parse(id["id"].toString());
+      ReservasProvider.rpro.setUsuarioId(_idUsuarioLogueado);
+      for (int i = 0; i < queryList.length; i++) {
+        usersList.add(RegistroModel(
+          queryList[i]['id'],
+          queryList[i]['nombre'],
+          queryList[i]['apellido'],
+          queryList[i]['email'],
+          queryList[i]['password'],
+        ));
+      }
+      // print('[DBProvider] getUser: ${usersList[0].nombre}');
+      return usersList;
     } else {
+      //  print('[DBProvider] getUser: Usuario is null');
       return null;
     }
-    
   }
 }

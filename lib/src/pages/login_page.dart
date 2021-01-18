@@ -1,24 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:reservaciones_app/src/models/registro_model.dart';
-import 'package:reservaciones_app/src/pages/login_presenter.dart';
+import 'package:reservaciones_app/src/providers/db_provider.dart';
 
 class LoginPage extends StatefulWidget {
   @override
   _LoginPageState createState() => _LoginPageState();
 }
 
-class _LoginPageState extends State<LoginPage> implements LoginPageContract {
+class _LoginPageState extends State<LoginPage> {
   bool _isLoading = false;
   final formKey = new GlobalKey<FormState>();
   final scaffoldKey = new GlobalKey<ScaffoldState>();
-
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
   String _email, _password;
-
-  LoginPagePresenter _presenter;
-
-  _LoginPageState() {
-    _presenter = new LoginPagePresenter(this);
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -79,6 +74,7 @@ class _LoginPageState extends State<LoginPage> implements LoginPageContract {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 20.0),
       child: TextFormField(
+        controller: emailController,
         keyboardType: TextInputType.emailAddress,
         decoration: InputDecoration(
           icon: Icon(Icons.alternate_email, color: Colors.deepPurple),
@@ -101,6 +97,7 @@ class _LoginPageState extends State<LoginPage> implements LoginPageContract {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 20.0),
       child: TextFormField(
+        controller: passwordController,
         obscureText: true,
         decoration: InputDecoration(
           icon: Icon(Icons.lock_outline, color: Colors.deepPurple),
@@ -133,51 +130,32 @@ class _LoginPageState extends State<LoginPage> implements LoginPageContract {
     );
   }
 
-  void _submit() {
-    final form = formKey.currentState;
+  _submit() async {
+    if (formKey.currentState.validate()) {
+      DBProvider db = new DBProvider();
+      var user = new RegistroModel(
+          null, null, null, emailController.text, passwordController.text);
+      db.getUser(user).then((List<RegistroModel> users) {
+        if (users != null && users.length > 0) {
+          Navigator.pushNamed(context, 'home');
 
-    if (form.validate()) {
-      setState(() {
-        _isLoading = true;
-        form.save();
-        _presenter.doLogin(_email, _password);
+          // print("[Login Page] submit : Succes");
+        } else {
+          mostrarSnackbar('DATOS INCORRECTOS O USUARIO NO EXISTENTE');
+          // print("[Login Page] submit : Credenciales invalidas");
+        }
       });
     }
   }
 
-  void _showSnackBar(String text) {
-    scaffoldKey.currentState.showSnackBar(new SnackBar(
-      content: new Text(text),
-    ));
-  }
+  void mostrarSnackbar(String mensaje) {
+    final snackbar = SnackBar(
+        content: Text(mensaje),
+        duration: Duration(
+          milliseconds: 5000,
+        ));
 
-  @override
-  void onLoginError(String error) {
-    // TODO: implement onLoginError
-    _showSnackBar("Login not successful");
-    setState(() {
-      _isLoading = false;
-    });
-  }
-
-  @override
-  void onLoginSuccess(RegistroModel user) async {
-    // TODO: implement onLoginSuccess
-    if (user.email == "") {
-      _showSnackBar("Login not successful");
-    } else {
-      _showSnackBar(user.toString());
-    }
-    setState(() {
-      _isLoading = false;
-    });
-    if (user.flaglogged == "logged") {
-      // print("Logged");
-      Navigator.of(context).pushNamed("home");
-    } else {
-      return null;
-      //print("Not Logged");
-    }
+    scaffoldKey.currentState.showSnackBar(snackbar);
   }
 
   Widget _crearFondo(BuildContext context) {
