@@ -23,8 +23,8 @@ class _FormReservaPageState extends State<FormReservaPage> {
 
   final formKey = GlobalKey<FormState>();
   final scaffolKey = GlobalKey<ScaffoldState>();
-  
- // DateTimePicker dateTime = new DateTimePicker();
+
+  // DateTimePicker dateTime = new DateTimePicker();
   @override
   void initState() {
     super.initState();
@@ -35,10 +35,10 @@ class _FormReservaPageState extends State<FormReservaPage> {
     final espaciosListProvider = Provider.of<EspacioListProvider>(context);
     espaciosListProvider.getAllEspacios();
 
-
-    final ReservasModel espacioData = ModalRoute.of(context).settings.arguments;
-    if (espacioData != null) {
-      reserva = espacioData;
+    final ReservasModel reservasData =
+        ModalRoute.of(context).settings.arguments;
+    if (reservasData != null) {
+      reserva = reservasData;
     }
     //final dynamic espacio = ModalRoute.of(context).settings.arguments;
     return Container(
@@ -99,146 +99,110 @@ class _FormReservaPageState extends State<FormReservaPage> {
     );
   }
 
-
   Widget _inputFecha() {
-    
     return Row(
-       mainAxisAlignment: MainAxisAlignment.spaceAround,
-      children: <Widget>[
-        Text('Fecha de Reservacion: '),
-        Text(fecha==null ? '' : fecha),
-        ElevatedButton.icon(
-          style: ElevatedButton.styleFrom(
-            primary: Style.colorPrimary
-          ),
-         
-          icon: Icon(Icons.calendar_today),
-          
-          label: Text(''),
-          onPressed: (){
-            showDatePicker(
-              context: context, 
-              locale : const Locale('es','ES'),
-              initialDate: DateTime.now(), 
-              firstDate: DateTime(2000), 
-              lastDate: DateTime(2100),
-              helpText: 'Selecciona la Fecha',
-              builder: (context, child) {
-              return Theme(
-                data: ThemeData.light(), // This will change to light theme.
-                child: child,
-              );
-            },
-            ).then((date){
-              setState(() {
-                
-                fecha=DateFormat('yyyy-MM-dd').format(date).toString();
-                
-                reserva.fechaReservacion=fecha;
-              });
-              
-            });
-          },
-          
-          
-        ),
-      ]
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          Text('Fecha de Reservacion: '),
+          Text(reserva.fechaReservacion),
+          ElevatedButton.icon(
+            style: ElevatedButton.styleFrom(primary: Style.colorPrimary),
+            icon: Icon(Icons.calendar_today),
+            label: Text(''),
+            onPressed: () {
+              showDatePicker(
+                context: context,
+                locale: const Locale('es', 'ES'),
+                initialDate: DateTime.now(),
+                firstDate: DateTime(2000),
+                lastDate: DateTime(2100),
+                helpText: 'Selecciona la Fecha',
+                builder: (context, child) {
+                  return Theme(
+                    data: ThemeData.light(), // This will change to light theme.
+                    child: child,
+                  );
+                },
+              ).then((date) {
+                setState(() {
+                  fecha = DateFormat('yyyy-MM-dd').format(date).toString();
 
-    );
+                  reserva.fechaReservacion = fecha;
+                });
+              });
+            },
+          ),
+        ]);
   }
 
   Widget _inputHoraInicial() {
-
     return Row(
-      
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      children: <Widget>[
-        Text('Hora de Inicio: '),
-        Text(horaInicial==null ? '' : horaInicial.toString()),
-        
-        ElevatedButton.icon(
-          style: ElevatedButton.styleFrom(
-            primary: Style.colorPrimary
-          ),
-         
-          icon: Icon(Icons.access_time),
-          label: Text(''),
-          onPressed: (){
-            showTimePicker(
-            
-              context: context, 
-              initialTime: TimeOfDay(hour: DateTime.now().hour, minute: 00),
-              helpText: 'Selecciona la Hora Inicial',
-              builder: (context, child) {
-              return MediaQuery(
-              data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true),
-              child: child,
-              
-              );
-             
-            },
-            ).then((data){
-              setState(() {
-                
-                horaInicial=data.format(context);
-                reserva.horaInicio=_convertirHoraInicio(horaInicial).toString();
-               
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          Text('Hora de Inicio: '),
+          Text(reserva.horaInicio),
+          ElevatedButton.icon(
+            style: ElevatedButton.styleFrom(primary: Style.colorPrimary),
+            icon: Icon(Icons.access_time),
+            label: Text(''),
+            onPressed: () {
+              showTimePicker(
+                context: context,
+                initialTime: TimeOfDay(hour: DateTime.now().hour, minute: 00),
+                helpText: 'Selecciona la Hora Inicial',
+                builder: (context, child) {
+                  return MediaQuery(
+                    data: MediaQuery.of(context)
+                        .copyWith(alwaysUse24HourFormat: true),
+                    child: child,
+                  );
+                },
+              ).then((data) {
+                setState(() {
+                  horaInicial = data.format(context);
+                  reserva.horaInicio =
+                      _convertirHoraInicio(horaInicial).toString();
+                });
               });
-              
-            });
-          },
-
-        
-        ),
-      ]
-
-    );
+            },
+          ),
+        ]);
   }
 
- 
-
   Widget _inputHoraFinal() {
- 
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      children: <Widget>[
-        Text('Hora de Termino: '),
-        Text(horaFinal==null ? '' : horaFinal.toString()),
-       
-        ElevatedButton.icon(
-          style: ElevatedButton.styleFrom(
-            primary: Style.colorPrimary
-          ),
-         
-          icon: Icon(Icons.access_time),
-          label: Text(''),
-          onPressed: () {
-             showTimePicker(
-             
-              context: context, 
-              initialTime: TimeOfDay(hour: DateTime.now().hour, minute: 00),
-              helpText: 'Selecciona la Hora Final',
-             builder: (BuildContext context, Widget child) {
-             return MediaQuery(
-             data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true),
-              child: child,
-             );
-            },
-          
-            ).then((data2){
-              setState(() {
-                
-                horaFinal=data2.format(context);//normal
-                reserva.horaFinal=_convertirHoraFinal(horaFinal);//bd
-                
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          Text('Hora de Termino: '),
+          Text(reserva.horaFinal),
+          ElevatedButton.icon(
+            style: ElevatedButton.styleFrom(primary: Style.colorPrimary),
+            icon: Icon(Icons.access_time),
+            label: Text(''),
+            onPressed: () {
+              showTimePicker(
+                context: context,
+                initialTime: TimeOfDay(hour: DateTime.now().hour, minute: 00),
+                helpText: 'Selecciona la Hora Final',
+                builder: (BuildContext context, Widget child) {
+                  return MediaQuery(
+                    data: MediaQuery.of(context)
+                        .copyWith(alwaysUse24HourFormat: false),
+                    child: child,
+                  );
+                },
+              ).then((data2) {
+                setState(() {
+                  horaFinal = data2.format(context); //normal
+                  reserva.horaFinal = _convertirHoraFinal(horaFinal); //bd
+                });
               });
-              
-            });
-          },
-        ),
-      ]
-
-    );
+            },
+          ),
+        ]);
   }
 
   Widget _inputDetalle() {
@@ -249,7 +213,6 @@ class _FormReservaPageState extends State<FormReservaPage> {
         labelText: 'Detalle',
       ),
       onSaved: (value) => reserva.detalle = value,
-      
     );
   }
 
@@ -276,109 +239,69 @@ class _FormReservaPageState extends State<FormReservaPage> {
     );
   }
 
+  String _convertirHoraInicio(String hora) {
+    String horaConvertida;
+    List<String> horas = hora.split(":");
 
-   String _convertirHoraInicio(String hora){
-      String horaConvertida;
-      List<String> horas = hora.split(":");
-      
-     if(horas[0].length==1){
-        horas[0]="0"+horas[0];
-      }
-      
-      horaConvertida=horas[0]+":"+horas[1]+":00";
-      return horaConvertida; 
+    if (horas[0].length == 1) {
+      horas[0] = "0" + horas[0];
+    }
 
-
+    horaConvertida = horas[0] + ":" + horas[1] + ":00";
+    return horaConvertida;
   }
 
-   String _convertirHoraFinal(String hora){
-      String horaConvertida;
-      int horaTemp;
-      List<String> horas = hora.split(":");
-      
-     if(horas[0]=="0"){
-        horas[0]="23";
-      }else{
-        horaTemp=int.parse(horas[0]);
-        horaTemp--;
-        horas[0]=horaTemp.toString();
-        if(horas[0].length==1){
-          horas[0]="0"+horas[0];
-        }
+  String _convertirHoraFinal(String hora) {
+    String horaConvertida;
+    int horaTemp;
+    List<String> horas = hora.split(":");
+
+    if (horas[0] == "0") {
+      horas[0] = "23";
+    } else {
+      horaTemp = int.parse(horas[0]);
+      horaTemp--;
+      horas[0] = horaTemp.toString();
+      if (horas[0].length == 1) {
+        horas[0] = "0" + horas[0];
       }
-      
-      horaConvertida=horas[0]+":59:00";
-      return horaConvertida; 
+    }
 
-
+    horaConvertida = horas[0] + ":59:00";
+    return horaConvertida;
   }
 
   void _submit() {
-    
     if (!formKey.currentState.validate()) return;
     formKey.currentState.save();
-
-  
 
     final productoProvider =
         Provider.of<ReservaListProvider>(context, listen: false);
 
-    
     reserva.idUsuario = ReservasProvider.rpro.getUsuarioId();
 
     if (reserva.id == null) {
-      //productoProvider.insertReserva(reserva);
-      print(reserva.idEspacio);
-      print(reserva.idUsuario);
-      print(reserva.fechaReservacion);
-      print(reserva.detalle);
-      print(reserva.horaInicio);
-      print(reserva.horaFinal);
-      print(reserva.numAsistentes);
-      if (reserva.fechaReservacion !='' && reserva.horaInicio!='' && reserva.horaFinal!=''){
-
-          
-           
-            productoProvider.insertReserva(reserva).then((value){
-                if(value!=null){
-
-                setState(() {
-                _guardando = true;
-                });
-                mostrarSnackbar('Reserva guardada');
-                Navigator.pushNamed(context, 'reservaciones');
-              }else{
-                mostrarSnackbar('Espacio ya reservado en esa fecha y hora');
-              }
-            });
-            //print(id);
-           /*if(id!=-1){
-
+      if (reserva.fechaReservacion != '' &&
+          reserva.horaInicio != '' &&
+          reserva.horaFinal != '') {
+        productoProvider.insertReserva(reserva).then((value) {
+          if (value != null) {
             setState(() {
-            _guardando = true;
+              _guardando = true;
             });
             mostrarSnackbar('Reserva guardada');
             Navigator.pushNamed(context, 'reservaciones');
-           }else{
-             mostrarSnackbar('Espacio ya reservado en esa fecha y hora');
-           }*/
-           
-       
-           
-        
-       
-
-        
-      }else{
-        print('Por favor ingrese todos los datos');
+          } else {
+            mostrarSnackbar('Espacio ya reservado en esa fecha y hora');
+          }
+        });
+      } else {
         mostrarSnackbar('Por favor ingrese todos los datos');
       }
-
     } else {
       productoProvider.updateReserva(reserva);
+      Navigator.pushNamed(context, 'reservaciones');
     }
-    
-    
   }
 
   void mostrarSnackbar(String mensaje) {

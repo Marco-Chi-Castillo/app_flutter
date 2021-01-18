@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:reservaciones_app/src/models/reservasRelaciones_model.dart';
 import 'package:reservaciones_app/src/models/reservas_models.dart';
 import 'package:reservaciones_app/src/providers/reservas_provider.dart';
 
 class ReservaListProvider extends ChangeNotifier {
   List<ReservasModel> reserva = [];
+  List<ReservasRelacionesModel> reservaRelaciones = [];
 
   insertReserva(ReservasModel reserva) async {
     final id = await ReservasProvider.rpro.insertReserva(reserva);
@@ -11,7 +13,6 @@ class ReservaListProvider extends ChangeNotifier {
     this.reserva.add(reserva);
     notifyListeners();
     return id;
-    
   }
 
   getReservaById(int id) async {
@@ -23,6 +24,12 @@ class ReservaListProvider extends ChangeNotifier {
   getAllReservas() async {
     final reserva = await ReservasProvider.rpro.getAllReservas();
     this.reserva = [...reserva];
+    notifyListeners();
+  }
+
+  getAllReservasRelaciones() async {
+    final reserva = await ReservasProvider.rpro.getAllReservasRelaciones();
+    this.reservaRelaciones = [...reserva];
     notifyListeners();
   }
 

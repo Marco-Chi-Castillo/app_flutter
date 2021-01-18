@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:reservaciones_app/src/components/menu_drawer.dart';
+import 'package:reservaciones_app/src/models/reservas_models.dart';
 import 'package:reservaciones_app/src/providers/reserva_list_provider.dart';
 import 'package:reservaciones_app/src/utils/paletaColor_util.dart';
 
@@ -8,6 +9,8 @@ class ReservasPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final reservasListProvider = Provider.of<ReservaListProvider>(context);
+    reservasListProvider.getAllReservas();
+    final reservas = reservasListProvider.reserva;
     return Container(
       child: Scaffold(
         appBar: AppBar(
@@ -16,7 +19,7 @@ class ReservasPage extends StatelessWidget {
         drawer: Drawer(
           child: menuDrawer.menuDrawer(),
         ),
-        body: _listaReservas(context, reservasListProvider),
+        body: _listaReservas(context, reservas),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
             Navigator.pushNamed(context, 'formReserva');
@@ -28,11 +31,7 @@ class ReservasPage extends StatelessWidget {
     );
   }
 
-  Widget _listaReservas(
-      BuildContext context, ReservaListProvider reservasListProvider) {
-    reservasListProvider.getAllReservas();
-    final reservas = reservasListProvider.reserva;
-
+  Widget _listaReservas(BuildContext context, List<ReservasModel> reservas) {
     return ListView.builder(
       itemCount: reservas.length,
       itemBuilder: (_, i) => ListTile(

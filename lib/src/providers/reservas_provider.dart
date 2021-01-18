@@ -1,3 +1,4 @@
+import 'package:reservaciones_app/src/models/reservasRelaciones_model.dart';
 import 'package:reservaciones_app/src/models/reservas_models.dart';
 import 'db_provider.dart';
 
@@ -7,17 +8,13 @@ class ReservasProvider {
   int _idUser;
   Future<int> insertReserva(ReservasModel nuevaReserva) async {
     try {
-       final db = await DBProvider.db.database;
-       final resp = await db.insert('Reservas', nuevaReserva.toJson());
-       print(resp);
-       return (resp);
-      
+      final db = await DBProvider.db.database;
+      final resp = await db.insert('Reservas', nuevaReserva.toJson());
+      print(resp);
+      return (resp);
     } catch (e) {
-      
-       return null;
-       
+      return null;
     }
-   
   }
 
   Future<ReservasModel> getReservaById(int id) async {
@@ -26,20 +23,35 @@ class ReservasProvider {
     return res.isNotEmpty ? ReservasModel.fromJson(res.first) : null;
   }
 
-  int getUsuarioId(){
-     
-      return _idUser;
+  int getUsuarioId() {
+    return _idUser;
   }
-  void setUsuarioId(int id){
-     _idUser=id;
+
+  void setUsuarioId(int id) {
+    _idUser = id;
   }
 
   Future<List<ReservasModel>> getAllReservas() async {
     final db = await DBProvider.db.database;
-    final res = await db.query('Reservas');
+    final res = await db.rawQuery('SELECT * FROM reservas');
 
     return res.isNotEmpty
         ? res.map((reserva) => ReservasModel.fromJson(reserva)).toList()
+        : [];
+  }
+
+  Future<List<ReservasRelacionesModel>> getAllReservasRelaciones() async {
+    final db = await DBProvider.db.database;
+    final res = await db.rawQuery(
+        '''SELECT r.id,r.fechaReservacion,r.detalle,r.horaInicio,r.horaFinal,r.numAsistentes,r.idUsuario,
+        r.idEspacio,u.nombre AS nombreUsuario,e.nombre AS nombreEspacio FROM Reservas r
+        INNER JOIN Espacios e ON r.idEspacio = e.id
+        INNER JOIN Usuarios u ON r.idUsuario = u.id''');
+
+    return res.isNotEmpty
+        ? res
+            .map((reserva) => ReservasRelacionesModel.fromJson(reserva))
+            .toList()
         : [];
   }
 

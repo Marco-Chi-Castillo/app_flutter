@@ -14,12 +14,12 @@ class ReservaDetalle extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           actions: [
-            IconButton(
+            /*IconButton(
               icon: Icon(Icons.edit),
               onPressed: () {
                 Navigator.pushNamed(context, 'formReserva', arguments: reserva);
               },
-            ),
+            ),*/
             IconButton(
                 icon: Icon(Icons.delete),
                 onPressed: () => _alertDelete(context, reserva.id))
@@ -35,7 +35,6 @@ class ReservaDetalle extends StatelessWidget {
   }
 
   List<Widget> _detallesReserva(ReservasModel reserva) {
-    
     final List<Widget> items = [
       Container(),
       SizedBox(
@@ -95,7 +94,7 @@ class ReservaDetalle extends StatelessWidget {
               onPressed: () {
                 Provider.of<ReservaListProvider>(context, listen: false)
                     .deleteReservaById(id);
-                Navigator.pushNamed(context, 'espacios');
+                Navigator.pushNamed(context, 'reservaciones');
               },
               child: Text('Aceptar'),
             ),
