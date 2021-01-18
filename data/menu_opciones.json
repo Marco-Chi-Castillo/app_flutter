@@ -2,7 +2,7 @@
   "nombreApp" : "reservaciones_app",
   "rutas" : [
    {
-       "ruta" : "/",
+       "ruta" : "home",
        "icon" : "home",
        "texto": "Inicio"
     },

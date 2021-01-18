@@ -4,9 +4,12 @@ import 'dart:async';
 
 import 'package:path_provider/path_provider.dart';
 import 'package:reservaciones_app/src/models/registro_model.dart';
+import 'package:reservaciones_app/src/providers/reservas_provider.dart';
 import 'package:sqflite/sqflite.dart';
 
 class DBProvider {
+
+  int _idUsuarioLogueado;
   static Database _database;
   static final DBProvider _instance = new DBProvider.internal();
   factory DBProvider() => _instance;
@@ -130,7 +133,7 @@ class DBProvider {
     int res = await dbClient.insert("Usuarios", user.toMap());
     List<Map> list = await dbClient.rawQuery('SELECT * FROM Usuarios');
     //print(list);
-    // print(res);
+    print(res);
     return res;
   }
 
@@ -139,16 +142,26 @@ class DBProvider {
     //print(user.email);
     //(user.password);
     var dbClient = await database;
-    List<Map> maps = await dbClient.query("Usuarios",
+    List<Map> maps = await dbClient.query("Usuarios ",
         columns: [columnEmail, columnPassword],
         where: "$columnEmail = ? and $columnPassword = ?",
-        whereArgs: [user.email, user.password]);
-    //print(maps);
+        whereArgs: [ user.email, user.password]);
+     //print(maps);   
+    String email2 =user.email.toString();
+    String pass = user.password;   
+    List<Map> list = await dbClient.rawQuery('SELECT id FROM Usuarios WHERE email = "$email2" AND password = $pass');
+    
+    Map id = list[0];
+    _idUsuarioLogueado = int.parse(id["id"].toString());
+    ReservasProvider.rpro.setUsuarioId(_idUsuarioLogueado);
+     
+  
     if (maps.length > 0) {
       //print("User Exist !!!");
       return user;
     } else {
       return null;
     }
+    
   }
 }

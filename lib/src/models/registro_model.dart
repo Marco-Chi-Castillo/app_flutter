@@ -1,4 +1,5 @@
 class RegistroModel {
+  
   String _nombre;
   String _apellido;
   String _email;
@@ -14,8 +15,9 @@ class RegistroModel {
     this._email = obj['email'];
     this._password = obj['password'];
     this._flaglogged = obj['password'];
+    
   }
-
+  
   String get nombre => _nombre;
   String get apellido => _apellido;
   String get email => _email;

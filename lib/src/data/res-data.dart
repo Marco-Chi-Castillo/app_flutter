@@ -13,6 +13,7 @@ class RestData {
     var db = new DBProvider();
     var userRetorno = new RegistroModel(null, null, null, null, null);
     userRetorno = await db.selectUser(user);
+    print (userRetorno);
     if (userRetorno != null) {
       flagLogged = "logged";
       return new Future.value(
