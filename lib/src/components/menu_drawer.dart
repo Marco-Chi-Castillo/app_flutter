@@ -28,7 +28,7 @@ class MenuDrawer {
         onTap: () {
           Navigator.pop(
               context); //Para cerrar el Drawer de Page en que nos encontremos.
-          Navigator.pushNamed(context, element['ruta']);
+          Navigator.pushReplacementNamed(context, element['ruta']);
         },
       );
 

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:reservaciones_app/src/models/reservas_models.dart';
@@ -271,7 +273,7 @@ class _FormReservaPageState extends State<FormReservaPage> {
     return horaConvertida;
   }
 
-  void _submit() {
+  Future<void> _submit() async {
     if (!formKey.currentState.validate()) return;
     formKey.currentState.save();
 
@@ -284,27 +286,42 @@ class _FormReservaPageState extends State<FormReservaPage> {
       if (reserva.fechaReservacion != '' &&
           reserva.horaInicio != '' &&
           reserva.horaFinal != '') {
-        productoProvider.insertReserva(reserva).then((value) {
+          final resp =await productoProvider.insertReserva(reserva);
+          if(resp!=null){
+            setState(() {
+              _guardando = true;
+            });
+            mostrarSnackbar('Reserva guardada');
+            new Timer(new Duration(milliseconds: 2000), (){
+             
+            });
+            
+            //Navigator.pushReplacementNamed(context, 'reservaciones');
+            Navigator.pop(context);
+          }else {
+            mostrarSnackbar('Espacio ya reservado en esa fecha y hora');
+          }
+         /* productoProvider.insertReserva(reserva).then((value) {
           if (value != null) {
             setState(() {
               _guardando = true;
             });
             mostrarSnackbar('Reserva guardada');
-            Navigator.pushNamed(context, 'reservaciones');
+            Navigator.pushReplacementNamed(context, 'reservaciones');
           } else {
             mostrarSnackbar('Espacio ya reservado en esa fecha y hora');
           }
-        });
+        });*/
       } else {
-        mostrarSnackbar('Por favor ingrese todos los datos');
+         mostrarSnackbar('Por favor ingrese todos los datos');
       }
     } else {
-      productoProvider.updateReserva(reserva);
-      Navigator.pushNamed(context, 'reservaciones');
+      await productoProvider.updateReserva(reserva);
+      Navigator.pushReplacementNamed(context, 'reservaciones');
     }
   }
 
-  void mostrarSnackbar(String mensaje) {
+  void mostrarSnackbar(String mensaje){
     final snackbar = SnackBar(
         content: Text(mensaje),
         duration: Duration(

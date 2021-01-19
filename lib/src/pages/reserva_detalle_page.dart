@@ -91,10 +91,11 @@ class ReservaDetalle extends StatelessWidget {
               child: Text('Cancelar'),
             ),
             FlatButton(
-              onPressed: () {
-                Provider.of<ReservaListProvider>(context, listen: false)
+              onPressed: () async {
+                await Provider.of<ReservaListProvider>(context, listen: false)
                     .deleteReservaById(id);
-                Navigator.pushNamed(context, 'reservaciones');
+                 Navigator.pop(context);
+                 Navigator.pop(context);
               },
               child: Text('Aceptar'),
             ),

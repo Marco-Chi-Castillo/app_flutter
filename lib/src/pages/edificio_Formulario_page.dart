@@ -80,7 +80,7 @@ class _FormEdificioPageState extends State<FormEdificioPage> {
     );
   }
 
-  void _submit() {
+  void _submit() async {
     if (!formKey.currentState.validate()) return;
     formKey.currentState.save();
 
@@ -92,12 +92,12 @@ class _FormEdificioPageState extends State<FormEdificioPage> {
         Provider.of<EdificioListProvider>(context, listen: false);
 
     if (edificio.id == null) {
-      productoProvider.insertEdificio(edificio);
+      await productoProvider.insertEdificio(edificio);
     } else {
-      productoProvider.updateEdificio(edificio);
+      await productoProvider.updateEdificio(edificio);
     }
     mostrarSnackbar('Edificio Guardado');
-    Navigator.pushNamed(context, 'edificios');
+    Navigator.pop(context);
   }
 
   void mostrarSnackbar(String mensaje) {

@@ -217,12 +217,12 @@ class _FormEspacioPageState extends State<FormEspacioPage> {
       espacio.imagen = await espacioProvider.subirImagen(foto);
     }
     if (espacio.id == null) {
-      espacioProvider.insertEspacio(espacio);
+      await espacioProvider.insertEspacio(espacio);
     } else {
-      espacioProvider.updateEspacio(espacio);
+      await espacioProvider.updateEspacio(espacio);
     }
     mostrarSnackbar('Espacio Guardado');
-    Navigator.pushNamed(context, 'espacios');
+    Navigator.pop(context);
   }
 
   void mostrarSnackbar(String mensaje) {

@@ -15,7 +15,7 @@ class EdificioDetalle extends StatelessWidget {
             IconButton(
               icon: Icon(Icons.edit),
               onPressed: () {
-                Navigator.pushNamed(context, 'formEdificio',
+                Navigator.pushReplacementNamed(context, 'formEdificio',
                     arguments: edificio);
               },
             ),
@@ -68,10 +68,11 @@ class EdificioDetalle extends StatelessWidget {
               child: Text('Cancelar'),
             ),
             FlatButton(
-              onPressed: () {
-                Provider.of<EdificioListProvider>(context, listen: false)
+              onPressed: () async {
+               await Provider.of<EdificioListProvider>(context, listen: false)
                     .deleteEdificioById(id);
-                Navigator.pushNamed(context, 'edificios');
+                Navigator.pop(context);
+                Navigator.pop(context);
               },
               child: Text('Aceptar'),
             ),
