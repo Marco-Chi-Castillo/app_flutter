@@ -31,7 +31,7 @@ class HomePage extends StatelessWidget {
     return ListView.builder(
       itemCount: reservas.length,
       itemBuilder: (_, i) => Card(
-        margin: EdgeInsets.all(15.0),
+        margin: EdgeInsets.symmetric(vertical: 5.0),
         child: Container(
           padding: EdgeInsets.all(15.0),
           child: Column(
@@ -39,9 +39,16 @@ class HomePage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "Espacio: " + reservas[i].nombreEspacio,
+                reservas[i].nombreEspacio,
                 style: TextStyle(
-                  fontSize: 20.0,
+                  fontSize: 22.0,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              Text(
+                "Detalle: " + reservas[i].detalle,
+                style: TextStyle(
+                  fontSize: 18.0,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -52,7 +59,7 @@ class HomePage extends StatelessWidget {
               Text(
                 "Fecha Reservación: " + reservas[i].fechaReservacion,
                 style: TextStyle(
-                  fontSize: 15.0,
+                  fontSize: 16.0,
                 ),
               ),
               Text(
@@ -61,19 +68,13 @@ class HomePage extends StatelessWidget {
                     " - " +
                     reservas[i].horaFinal,
                 style: TextStyle(
-                  fontSize: 15.0,
-                ),
-              ),
-              Text(
-                "Detalle: " + reservas[i].detalle,
-                style: TextStyle(
-                  fontSize: 15.0,
+                  fontSize: 16.0,
                 ),
               ),
               Text(
                 "Usuario: " + reservas[i].nombreUsuario,
                 style: TextStyle(
-                  fontSize: 15.0,
+                  fontSize: 16.0,
                 ),
               ),
             ],

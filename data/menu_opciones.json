@@ -12,11 +12,6 @@
        "texto": "Reservaciones"
     },
     {
-       "ruta" : "docentes",
-       "icon" : "people",
-       "texto": "Docentes"
-    },
-    {
        "ruta" : "espacios",
        "icon" : "home_work",
        "texto": "Espacios"

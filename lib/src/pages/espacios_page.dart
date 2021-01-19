@@ -43,7 +43,7 @@ class _EspaciosPageState extends State<EspaciosPage> {
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            Navigator.pushNamed(context, 'formEspacio');
+            Navigator.pushReplacementNamed(context, 'formEspacio');
           },
           child: Icon(Icons.add),
           backgroundColor: Style.colorPrimary,
@@ -80,14 +80,6 @@ class _EspaciosPageState extends State<EspaciosPage> {
             ? espacios.length
             : espaciosFilter.length,
         itemBuilder: (_, i) => ListTile(
-          /*leading: FadeInImage(
-            image: NetworkImage(espacios[i].imagen),
-            placeholder: AssetImage('assets/images/jar-loading.gif'),
-            height: 100.0,
-            width: double.infinity,
-            fit: BoxFit.cover,
-          )*/
-
           leading: Icon(Icons.apartment),
           trailing: Icon(Icons.keyboard_arrow_right),
           title: Text(espaciosFilter.length == 0
@@ -97,7 +89,7 @@ class _EspaciosPageState extends State<EspaciosPage> {
               ? espacios[i].descripcion
               : espaciosFilter[i].descripcion),
           onTap: () {
-            Navigator.pushNamed(context, 'espacioDetalle',
+            Navigator.pushReplacementNamed(context, 'espacioDetalle',
                 arguments: espaciosFilter.length == 0
                     ? espacios[i]
                     : espaciosFilter[i]);
