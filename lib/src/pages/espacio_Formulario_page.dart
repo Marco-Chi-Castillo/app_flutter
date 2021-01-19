@@ -87,12 +87,10 @@ class _FormEspacioPageState extends State<FormEspacioPage> {
         fit: BoxFit.contain,
       );
     } else {
-      return Image(
-        image: AssetImage(foto?.path ?? 'assets/images/no-image.png'),
-        height: 300.0,
-        fit: BoxFit.cover,
-      );
-      // Image.asset('assets/images/no-image.png');
+      if (foto != null) {
+        return Image.file(foto, height: 300.0, fit: BoxFit.cover);
+      }
+      return Image.asset('assets/images/no-image.png');
     }
   }
 
