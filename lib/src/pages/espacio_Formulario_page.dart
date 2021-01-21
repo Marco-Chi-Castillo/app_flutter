@@ -220,7 +220,7 @@ class _FormEspacioPageState extends State<FormEspacioPage> {
       await espacioProvider.updateEspacio(espacio);
     }
     mostrarSnackbar('Espacio Guardado');
-    Navigator.pop(context);
+    Navigator.popAndPushNamed(context, 'espacios');
   }
 
   void mostrarSnackbar(String mensaje) {

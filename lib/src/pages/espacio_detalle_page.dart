@@ -19,7 +19,8 @@ class EspacioDetalle extends StatelessWidget {
             IconButton(
               icon: Icon(Icons.edit),
               onPressed: () {
-                Navigator.pushReplacementNamed(context, 'formEspacio', arguments: espacio);
+                Navigator.pushReplacementNamed(context, 'formEspacio',
+                    arguments: espacio);
               },
             ),
             IconButton(
@@ -104,11 +105,10 @@ class EspacioDetalle extends StatelessWidget {
               child: Text('Cancelar'),
             ),
             FlatButton(
-              onPressed: () async{
+              onPressed: () async {
                 await Provider.of<EspacioListProvider>(context, listen: false)
                     .deleteEspacioById(id);
-                Navigator.pop(context);
-                Navigator.pop(context);
+                Navigator.popAndPushNamed(context, 'espacios');
               },
               child: Text('Aceptar'),
             ),
