@@ -47,23 +47,22 @@ class ReservaDetalle extends StatelessWidget {
       ),
       Divider(),
       ListTile(
-        leading: Icon(Icons.title),
-        //title: Text(fechaString),
-        subtitle: Text('Descripción '),
-      ),
-      Divider(), /*
-      ListTile(
-        leading: Icon(Icons.account_box),
-        title: Text(reserva.numAsistentes.toString()),
-        subtitle: Text('Capacidad de personas'),
+        leading: Icon(Icons.calendar_today_sharp),
+        title: Text(reserva.fechaReservacion),
+        subtitle: Text('Fecha de reservación'),
       ),
       Divider(),
       ListTile(
-        leading: Icon(Icons.radio_button_checked),
-        title: Text(espacio.estatus == 1 ? 'Disponible' : 'No disponible'),
-        subtitle: Text('Estado del edifcio'),
+        leading: Icon(Icons.access_time_outlined),
+        title: Text(reserva.horaInicio),
+        subtitle: Text('Hora de inicio'),
       ),
-      */
+      Divider(),
+      ListTile(
+        leading: Icon(Icons.access_time_rounded),
+        title: Text(reserva.horaFinal),
+        subtitle: Text('Hora de finalización'),
+      ),
     ];
 
     return items;
@@ -94,8 +93,8 @@ class ReservaDetalle extends StatelessWidget {
               onPressed: () async {
                 await Provider.of<ReservaListProvider>(context, listen: false)
                     .deleteReservaById(id);
-                 Navigator.pop(context);
-                 Navigator.pop(context);
+                Navigator.pop(context);
+                Navigator.pop(context);
               },
               child: Text('Aceptar'),
             ),
